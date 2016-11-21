@@ -7,6 +7,12 @@ import os
 import sys
 import glob
 
+print("Don't forget you need to hardlink the tar.gz's to tgzs")
+print("cd ../calibration")
+print("ln uid___A001_X13f_X10c.session_2.caltables.tar.gz uid___A001_X13f_X10c.session_2.caltables.tgz")
+print("ln uid___A002_X9d26c8_X8c5.ms.flagversions.tar.gz uid___A002_X9d26c8_X8c5.ms.flagversions.tgz")
+print("Then probably have to set USEMS=True")
+
 applyonly = True
 
 savingslevel=0
