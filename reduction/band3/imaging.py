@@ -43,9 +43,10 @@ tclean(vis='uid___A002_X9baf64_X5d_raw.ms.split.cal', field='Eta_Carinae',
        niter=5000,
        imagename=myimagebase)
 
-impbcor(imagename=myimagebase+'.tt0', pbimage=myimagebase+'.pb', outfile=myimagebase+'.tt0.pbcor', overwrite=True)
-exportfits(imagename=myimagebase+'.tt0.pbcor', fitsimage=myimagebase+'.tt0.pbcor.fits', dropdeg=True, overwrite=True)
-exportfits(imagename=myimagebase+'.tt1', fitsimage=myimagebase+'.tt1.fits', dropdeg=True, overwrite=True)
+impbcor(imagename=myimagebase+'.image.tt0', pbimage=myimagebase+'.pb', outfile=myimagebase+'.image.tt0.pbcor', overwrite=True)
+exportfits(imagename=myimagebase+'.image.tt0.pbcor', fitsimage=myimagebase+'.image.tt0.pbcor.fits', dropdeg=True, overwrite=True)
+exportfits(imagename=myimagebase+'.image.tt0', fitsimage=myimagebase+'.image.tt0.fits', dropdeg=True, overwrite=True)
+exportfits(imagename=myimagebase+'.image.tt1', fitsimage=myimagebase+'.image.tt1.fits', dropdeg=True, overwrite=True)
 
 
 for spw in '0123':
