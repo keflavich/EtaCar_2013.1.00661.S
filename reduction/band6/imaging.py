@@ -67,8 +67,8 @@ for spw in '0123':
     exportfits(imagename=myimagebase+'.pb', fitsimage=myimagebase+'.pb.fits', dropdeg=True, overwrite=True)
     exportfits(imagename=myimagebase+'.residual', fitsimage=myimagebase+'.residual.fits', dropdeg=True, overwrite=True)
 
-myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'.format(spw)
-tclean(vis='uid___A002_X9baf64_X5d_raw.ms.split.cal', field='Eta_Carinae',
+myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'
+tclean(vis=inp_vis, field='Eta_Carinae',
        spw='0', specmode='cube', imsize=imsize, cell=cell,
        robust=-2, weighting='briggs',
        outframe='LSRK',
