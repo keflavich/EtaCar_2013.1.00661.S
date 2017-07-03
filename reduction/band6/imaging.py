@@ -46,6 +46,8 @@ tclean(vis=inp_vis, field='Eta_Carinae',
        deconvolver='mtmfs',
        nterms=2,
        niter=5000,
+       weighting='briggs',
+       robust=0,
        imagename=myimagebase)
 
 #impbcor(imagename=myimagebase+'.image.tt0', pbimage=myimagebase+'.pb', outfile=myimagebase+'.image.tt0.pbcor', overwrite=True)
