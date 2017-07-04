@@ -58,6 +58,7 @@ exportfits(imagename=myimagebase+'.image.tt1', fitsimage=myimagebase+'.image.tt1
 
 for spw in '0123':
     myimagebase = 'EtaCar_band6_spw{0}_line_clean'.format(spw)
+    os.system('rm -rf ' + myimagebase + "*/")
     tclean(vis=inp_vis, field='Eta_Carinae',
            spw=spw, specmode='cube', imsize=imsize, cell=cell,
            outframe='LSRK',
@@ -70,6 +71,7 @@ for spw in '0123':
     exportfits(imagename=myimagebase+'.residual', fitsimage=myimagebase+'.residual.fits', dropdeg=True, overwrite=True)
 
 myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'
+os.system('rm -rf ' + myimagebase + "*/")
 tclean(vis=inp_vis, field='Eta_Carinae',
        spw='0', specmode='cube', imsize=imsize, cell=cell,
        robust=-2, weighting='briggs',

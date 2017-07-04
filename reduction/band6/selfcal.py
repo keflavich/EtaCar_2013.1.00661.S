@@ -17,6 +17,14 @@ def makefits(myimagebase):
     exportfits(imagename=myimagebase+'.alpha', fitsimage=myimagebase+'.alpha.fits', dropdeg=True, overwrite=True)
     exportfits(imagename=myimagebase+'.alpha.error', fitsimage=myimagebase+'.alpha.error.fits', dropdeg=True, overwrite=True)
 
+def makefits_cube(myimagebase):
+    impbcor(imagename=myimagebase+'.image', pbimage=myimagebase+'.pb', outfile=myimagebase+'.image.pbcor', overwrite=True) # perform PBcorr
+    exportfits(imagename=myimagebase+'.image.pbcor', fitsimage=myimagebase+'.image.pbcor.fits', dropdeg=True, overwrite=True) # export the corrected image
+    exportfits(imagename=myimagebase+'.image', fitsimage=myimagebase+'.image.fits', dropdeg=True, overwrite=True) # export the corrected image
+    exportfits(imagename=myimagebase+'.pb', fitsimage=myimagebase+'.pb.fits', dropdeg=True, overwrite=True) # export the PB image
+    exportfits(imagename=myimagebase+'.model', fitsimage=myimagebase+'.model.fits', dropdeg=True, overwrite=True) # export the PB image
+    exportfits(imagename=myimagebase+'.residual', fitsimage=myimagebase+'.residual.fits', dropdeg=True, overwrite=True) # export the PB image
+
 
 for iternum, threshold, solint in [(0, '1 Jy', '30s'),
                                    (1, '1 Jy', 'int'),
@@ -58,8 +66,12 @@ for iternum, threshold, solint in [(0, '1 Jy', '30s'),
 inp_vis = vis
 for spw in '0123':
     myimagebase = 'EtaCar_band6_spw{0}_line_clean'.format(spw)
-    tclean(vis=inp_vis, field='Eta_Carinae',
-           spw=spw, specmode='cube', imsize=imsize, cell=cell,
+    tclean(vis=inp_vis,
+           field='Eta_Carinae',
+           spw=spw,
+           specmode='cube',
+           imsize=imsize,
+           cell=cell,
            outframe='LSRK',
            niter=50000,
            threshold='50 mJy',
@@ -67,7 +79,7 @@ for spw in '0123':
            robust=0,
            imagename=myimagebase)
 
-    makefits(myimagebase)
+    makefits_cube(myimagebase)
 
 myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'
 tclean(vis=inp_vis, field='Eta_Carinae',
@@ -82,4 +94,4 @@ tclean(vis=inp_vis, field='Eta_Carinae',
        nchan=400,
        imagename=myimagebase)
 
-makefits(myimagebase)
+makefits_cube(myimagebase)
