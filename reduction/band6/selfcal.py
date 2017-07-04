@@ -1,5 +1,8 @@
 field = 'Eta_Carinae'
-prev_vis = inp_vis = 'uid___A002_X9d26c8_X8c5.ms.split.cal'
+inp_vis = 'uid___A002_X9d26c8_X8c5.ms.split.cal'
+prev_vis = 'original.split.cal'
+split(vis=inp_vis, outputvis=prev_vis, datacolumn='data', field=field)
+
 cell = '0.1arcsec'
 imsize = [384,384]
 
@@ -23,7 +26,11 @@ for iternum, threshold, solint in [(0, '1 Jy', '30s'),
                                    (5, '0.05 Jy', 'int'),]:
     vis = 'selfcal{0}.ms'.format(iternum)
     phasetable = 'phase_{0}.cal'.format(iternum)
-    split(prev_vis, vis)
+    success = split(vis=prev_vis, outputvis=vis)
+    if not success:
+        success = split(vis=prev_vis, outputvis=vis, datacolumn='data')
+    if not success:
+        raise ValueError("Failed to split")
 
     myimagebase = 'EtaCar_band6_allspw_continuum_clean_taylor_selfcal{0}'.format(iternum)
     tclean(vis=vis, field=field,
@@ -47,3 +54,32 @@ for iternum, threshold, solint in [(0, '1 Jy', '30s'),
              interp="linear", applymode='calflag', calwt=False)
 
     prev_vis = vis
+
+inp_vis = vis
+for spw in '0123':
+    myimagebase = 'EtaCar_band6_spw{0}_line_clean'.format(spw)
+    tclean(vis=inp_vis, field='Eta_Carinae',
+           spw=spw, specmode='cube', imsize=imsize, cell=cell,
+           outframe='LSRK',
+           niter=50000,
+           threshold='50 mJy',
+           weighting='briggs',
+           robust=0,
+           imagename=myimagebase)
+
+    makefits(myimagebase)
+
+myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'
+tclean(vis=inp_vis, field='Eta_Carinae',
+       spw='0', specmode='cube', imsize=imsize, cell=cell,
+       robust=-2, weighting='briggs',
+       outframe='LSRK',
+       restfreq='230.538GHz',
+       reffreq='230.538GHz',
+       niter=50000,
+       threshold='50 mJy',
+       start='-250km/s',
+       nchan=400,
+       imagename=myimagebase)
+
+makefits(myimagebase)
