@@ -65,7 +65,8 @@ for iternum, threshold, solint in [(0, '1 Jy', '30s'),
 
 inp_vis = vis
 for spw in '0123':
-    myimagebase = 'EtaCar_band6_spw{0}_line_clean'.format(spw)
+    myimagebase = 'EtaCar_band6_spw{0}_selfcal_line_clean'.format(spw)
+    os.system('rm -rf ' + myimagebase + "*/")
     tclean(vis=inp_vis,
            field='Eta_Carinae',
            spw=spw,
@@ -81,7 +82,7 @@ for spw in '0123':
 
     makefits_cube(myimagebase)
 
-myimagebase = 'EtaCar_band6_CO2-1_clean_uniform'
+myimagebase = 'EtaCar_band6_CO2-1_selfcal_clean_uniform'
 tclean(vis=inp_vis, field='Eta_Carinae',
        spw='0', specmode='cube', imsize=imsize, cell=cell,
        robust=-2, weighting='briggs',
