@@ -30,7 +30,10 @@ cutout_region = regions.io.read_ds9("../regions/etacar_cutout.reg")[0]
 pixregion = cutout_region.to_pixel(mywcs)
 pixmask = pixregion.to_mask()
 
-jtok = u.brightness_temperature(radio_beam.Beam.from_fits_header(fh[0].header), 230*u.GHz, )
+beam = radio_beam.Beam.from_fits_header(fh[0].header)
+jtok = u.brightness_temperature(beam, 230.538*u.GHz, )
+print("Jy -> K = {0}".format((1*u.Jy).to(u.K, jtok)))
+print(beam)
 cutout = (pixmask.cutout(data)/(u.km/u.s)).to(u.K, equivalencies=jtok)*u.km/u.s
 
 cutout_nh = co_xfactor * cutout
@@ -162,8 +165,12 @@ for Tex in (150, 1500, 2000):
     ok = np.isfinite(Ncomap)
     Ncototal = np.nansum((Ncomap[ok] * pix_area_pc).decompose())
     print('total co particles = {0}'.format(Ncototal))
-    print('total co mass = {0:0.3g}'.format((Ncototal*(12+16)*u.Da).to(u.M_sun)))
-    print('total h2 mass using X_CO=1e-5 = {0:0.3g}'.format(1e5*(Ncototal*(12+16)/2.*u.Da).to(u.M_sun)))
-    print('total h2 mass using X_CO=1e-4 = {0:0.3g}'.format(1e4*(Ncototal*(12+16)/2.*u.Da).to(u.M_sun)))
+    M_co = (Ncototal*(12+16)*u.Da).to(u.M_sun)
+    print('total co mass = {0:0.3g}'.format(M_co))
+    print('total h2 mass using X_CO=1e-5 = {0:0.3g}'.format((Ncototal*1e5*2.*u.Da).to(u.M_sun)))
+    print('total h2 mass using X_CO=1e-4 = {0:0.3g}'.format((Ncototal*1e4*2.*u.Da).to(u.M_sun)))
+    print('total mass using X_CO=1e-5 = {0:0.3g}'.format((1e5*Ncototal*2.*u.Da*1.37).to(u.M_sun)))
+    print('total mass using X_CO=1e-4 = {0:0.3g}'.format((1e4*Ncototal*2.*u.Da*1.37).to(u.M_sun)))
+    print('total mass using X_CO=1e-4 = {0:0.3g}'.format(M_co * (2/28*1e4*1.37)))
 
     print()
