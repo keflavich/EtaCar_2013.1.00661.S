@@ -82,8 +82,28 @@ for spw in '0123':
 
     makefits_cube(myimagebase)
 
-myimagebase = 'EtaCar_band6_CO2-1_selfcal_clean_uniform'
-tclean(vis=inp_vis, field='Eta_Carinae',
+uvcontsub(vis='selfcal5.ms', field='Eta_Carinae', fitspw='', fitorder=2)
+
+csvis = 'selfcal5.ms.contsub'
+myimagebase = 'EtaCar_band6_CO2-1_selfcal_contsub_clean'
+tclean(vis=csvis, field='Eta_Carinae',
+       spw='0', specmode='cube', imsize=imsize, cell=cell,
+       robust=0, weighting='briggs',
+       outframe='LSRK',
+       restfreq='230.538GHz',
+       reffreq='230.538GHz',
+       niter=50000,
+       threshold='50 mJy',
+       start='-250km/s',
+       nchan=800,
+       imagename=myimagebase)
+
+makefits_cube(myimagebase)
+
+
+csvis = 'selfcal5.ms.contsub'
+myimagebase = 'EtaCar_band6_CO2-1_selfcal_contsub_clean_uniform'
+tclean(vis=csvis, field='Eta_Carinae',
        spw='0', specmode='cube', imsize=imsize, cell=cell,
        robust=-2, weighting='briggs',
        outframe='LSRK',
@@ -92,7 +112,25 @@ tclean(vis=inp_vis, field='Eta_Carinae',
        niter=50000,
        threshold='50 mJy',
        start='-250km/s',
-       nchan=400,
+       nchan=800,
+       imagename=myimagebase)
+
+makefits_cube(myimagebase)
+
+
+csvis = 'selfcal5.ms.contsub'
+myimagebase = 'EtaCar_band6_CO2-1_selfcal_contsub_clean_wide'
+tclean(vis=csvis, field='Eta_Carinae',
+       spw='0', specmode='cube', imsize=imsize, cell=cell,
+       robust=0, weighting='briggs',
+       outframe='LSRK',
+       restfreq='230.538GHz',
+       reffreq='230.538GHz',
+       niter=50000,
+       threshold='25 mJy',
+       start='-750km/s',
+       width='10km/s',
+       nchan=150,
        imagename=myimagebase)
 
 makefits_cube(myimagebase)

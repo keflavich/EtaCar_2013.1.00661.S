@@ -174,3 +174,15 @@ for Tex in (150, 1500, 2000):
     print('total mass using X_CO=1e-4 = {0:0.3g}'.format(M_co * (2/28*1e4*1.37)))
 
     print()
+
+import pylab as pl
+import pyspeckitmodels
+pl.figure(16)
+pl.clf()
+xarr1 = np.linspace(2.292,2.35,5000)
+for T in [100,200,500,1000,1500,2000]:
+    pl.plot(xarr1,pyspeckitmodels.co_vibration.tau_of_N(xarr1*1e-4,1e18,T,width=20), label="{0} K".format(T))
+
+pl.legend(loc='best')
+pl.xlabel("Wavelength (microns)")
+pl.ylabel("Optical Depth")
